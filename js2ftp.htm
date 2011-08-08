@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>js2FTP</title>
+<style>
+body { font-family:Arial, sans-serif; color:#000; }
+input { margin-left:50px;}
+dt { font-weight: bold; margin-top: 5px; }
+table { border: thin solid black; padding: 10px;  background-color: #FFFFD0 }
+td { background-color: #FFFFD0 }
+</style>
+</head>
+<body>
+<h2>Text to file via FTP</h2>
+<hr>
+<p>serverName<input type="text" id="serverName" name="serverName" value="www.myserver.net" size="30" /></p>
+<p>&nbsp;&nbsp;&nbsp;userName<input type="text" id="userName" name="userName" value="admin" size="30" /></p>
+<p>&nbsp;&nbsp;&nbsp;password<input type="text" id="password" name="password" value="secret" size="30" /></p>
+<hr>
+<input type="button" value="Test login" onclick="javascript:testLogin();">
+<input type="text" id="ftpstatus" value="..." readonly size="40" />
+<hr>
+
+
+<table>
+
+<tr>
+<td>[server path+] fileName:</td>
+<td width="500">
+<input style="width:500px;" type="text" id="fileName" value="/home/web_root/projekte/stelian/ftp_Java_Applet/github/textcontent.txt" />
+</td></tr>
+
+<tr>
+<td>Test text:</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+
+<td colspan="2">
+<textarea id="content2save" name="content2save" rows="8" cols="70" />
+some text content...
+</textarea>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<!--   -->
+<input type="button" value="Submit" onclick="javascript:save2ftp();">
+
+</td>
+</tr>
+</table>
+
+ <script type="text/javascript">
+ /*<![CDATA[*/
+var serverName = "";
+var userName = "";
+var password = "";
+var loggedIn = false;
+var fileName = "";
+var content2save = "";
+
+function save2ftp() {
+getLoginData();
+fileName = document.getElementById("fileName").value;
+content2save = document.getElementById("content2save").value;
+upload(serverName, userName, password, fileName, content2save);
+}
+function testLogin() {
+getLoginData();
+var statusText = document.getElementById("ftpstatus");
+statusText.value = "Start checking...";
+loggedIn = false;
+checkLogin(serverName, userName, password, function(loggedIn) {
+alert("loggedIn = "+loggedIn);
+});
+}
+function getLoginData() {
+serverName = document.getElementById("serverName").value;
+userName = document.getElementById("userName").value;
+password = document.getElementById("password").value;
+return;
+}
+ /*]]>*/
+ </script>
+
+<script type="text/javascript" src="js/ftpinterface.min.js"></script>
+<script type="text/javascript" src="js/ftpclient.min.js"></script>
+
+</body>
+</html>
